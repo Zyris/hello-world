@@ -17,6 +17,8 @@ public class Main {
 
         C c1 = new C(1).add(b1).add(b2);
         C c2 = new C(2).add(b2);
+        C c3 = new C(2).add(b3);
+
 
         //Map<A, Map<C,B>>
 
