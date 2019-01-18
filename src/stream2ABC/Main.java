@@ -32,6 +32,10 @@ public class Main {
                 .flatMap(C::getBs)
                 .flatMap(B::getAs)
                 .forEach(System.out::println);
+
+//        Достать Мап из b
+        b1.getAsList().stream().map(a->new Pair<>(b1,a)).collect(Collectors.toMap())
+
 //        Stream.of(1, 2, 3, 4, 5)
 //                .map(i -> i + 2)
 //                .forEach(System.out::println);
