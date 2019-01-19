@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class C {
-    List<B> bs = new ArrayList<>();
-    int value;
+    private List<B> bs = new ArrayList<>();
+    private int value;
 
     public C(int value) {
         this.value = value;
@@ -24,7 +24,7 @@ public class C {
     public String toString() {
         return "C{" +
                 "value=" + value +
-                ", bs=" + bs +
+                //", bs=" + bs +
                 '}';
     }
 

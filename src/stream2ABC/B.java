@@ -12,7 +12,7 @@ public class B {
     public String toString() {
         return "B{" +
                 "value=" + value +
-                ", as=" + as +
+                //", as=" + as +
                 '}';
     }
 

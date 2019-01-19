@@ -14,6 +14,7 @@ public class Main {
         B b1 = new B(1).add(a1).add(a2);
         B b2 = new B(2).add(a2).add(a3);
         B b3 = new B(3).add(a1).add(a3);
+        B b4 = new B(4).add(a1).add(a1).add(a2);
 
         C c1 = new C(1).add(b1).add(b2);
         C c2 = new C(2).add(b2);
@@ -22,25 +23,37 @@ public class Main {
         //Map<A, Map<C,B>>
 
 //        List<B> res = Arrays.asList(fullContain1, fullContain2).stream();
-
+        //Достаёт лист по возврату стрима
 //        res1(c1);
+        //Достаёт лист по возврату стрима
 //        res2(c1);
+        //Достаёт лист из листа по стриму от с1 и от b
 //        ref3(c1);
+        //Достаёт лист из листа по листу от с1 и от b
 //        ref4(c2);
+        //Вывести все А
+//        ref5(c1, c2);
 
-        Arrays.asList(c1,c2).stream()
-                .flatMap(C::getBs)
-                .flatMap(B::getAs)
-                .forEach(System.out::println);
 
-//        Достать Мап из b
-        b1.getAsList().stream().map(a->new Pair<>(b1,a)).collect(Collectors.toMap())
+//        Достать Мап из b без проверки коллизии
+        System.out.println(b1.getAsList().stream()
+                .map(a -> new Pair<>(b1, a))
+                .collect(Collectors.toMap(Pair::getY, Pair::getX))
+        );
+//        Достать Мап из b с проверкой коллизии
+        System.out.println(b4.getAsList().stream()
+                .map(a -> new Pair<>(b4, a))
+                .collect(Collectors
+                        .toMap(Pair::getY,
+                                Pair::getX,
+                                (s, a) -> s)));
+
+        Stream.of(b1, b2).forEach(System.out::println);
+
 
 //        Stream.of(1, 2, 3, 4, 5)
 //                .map(i -> i + 2)
 //                .forEach(System.out::println);
-
-
 
 
         //List<A> res3 = c1.getBsList().stream().flatMap(s -> s.getAs())
@@ -49,6 +62,14 @@ public class Main {
 
 
         //new C(new ArrayList<B>().stream().flatMap())
+    }
+
+    private static void ref5(C c1, C c2) {
+        //        Вывести все А
+        Stream.of(c1,c2)
+                .flatMap(C::getBs)
+                .flatMap(B::getAs)
+                .forEach(System.out::println);
     }
 
     private static void ref4(C c2) {
