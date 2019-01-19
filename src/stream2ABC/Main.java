@@ -1,7 +1,9 @@
 package stream2ABC;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,40 +35,76 @@ public class Main {
 //        ref4(c2);
         //Вывести все А
 //        ref5(c1, c2);
-
-
 //        Достать Мап из b без проверки коллизии
-        System.out.println(b1.getAsList().stream()
-                .map(a -> new Pair<>(b1, a))
-                .collect(Collectors.toMap(Pair::getY, Pair::getX))
-        );
+//        ref6(b1);
 //        Достать Мап из b с проверкой коллизии
+//        ref7(b4);
+        System.out.println(b4.getAsList().stream()
+                .map(a -> new Pair<>(b4, a))
+                .peek(s-> System.out.println(s))
+                .collect(Collectors
+                        .toMap(Pair::getY,
+                                Pair::getX,
+                                (s, a) -> s))
+        );
+
+        System.out.println(Stream.of(b1, b2)
+                .map(b -> b.getAsList().stream().map(a -> new Pair<>(b, a))
+                        .collect(Collectors
+                                .toMap(Pair::getY,
+                                        Pair::getX,
+                                        (s, a) -> s)))
+                .collect(Collectors.toList())
+        );
+
+        System.out.println("Стирает повторы"+Stream.of(b1, b2)
+                .map(b -> b.getAsList().stream().map(a -> new Pair<>(b, a))
+                        .collect(Collectors
+                                .toMap(Pair::getY,
+                                        Pair::getX,
+                                        (s, a) -> s)))
+                .reduce(new HashMap<>(),(accM, m)->{accM.putAll(m);
+
+                return accM;
+                })
+//                .map(s->)
+//                .collect(Collectors.toList())
+        );
+
+        System.out.println("last: " + Stream.of(b1, b2)
+                .map(b -> b.getAsList().stream().map(a -> new Pair<>(b, a))
+                        .collect(Collectors
+                                .toMap(Pair::getY,
+                                        Pair::getX,
+                                        (s, a) -> s)))
+                .reduce(new HashMap<A,List<B>>(),(accM, m)->{accM.putAll(m);
+                    return accM;
+                })
+        );
+
+    }
+
+    private static void ref7(B b4) {
+        //Достать Мап из b с проверкой коллизии
         System.out.println(b4.getAsList().stream()
                 .map(a -> new Pair<>(b4, a))
                 .collect(Collectors
                         .toMap(Pair::getY,
                                 Pair::getX,
                                 (s, a) -> s)));
+    }
 
-        Stream.of(b1, b2).forEach(System.out::println);
-
-
-//        Stream.of(1, 2, 3, 4, 5)
-//                .map(i -> i + 2)
-//                .forEach(System.out::println);
-
-
-        //List<A> res3 = c1.getBsList().stream().flatMap(s -> s.getAs())
-//
-//        System.out.println(b1.toString());
-
-
-        //new C(new ArrayList<B>().stream().flatMap())
+    private static void ref6(B b1) {
+        //        Достать Мап из b без проверки коллизии
+        System.out.println(b1.getAsList().stream()
+                .map(a -> new Pair<>(b1, a))
+                .collect(Collectors.toMap(Pair::getY, Pair::getX))
+        );
     }
 
     private static void ref5(C c1, C c2) {
         //        Вывести все А
-        Stream.of(c1,c2)
+        Stream.of(c1, c2)
                 .flatMap(C::getBs)
                 .flatMap(B::getAs)
                 .forEach(System.out::println);
