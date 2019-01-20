@@ -1,9 +1,6 @@
 package stream2ABC;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -41,7 +38,7 @@ public class Main {
 //        ref7(b4);
         System.out.println(b4.getAsList().stream()
                 .map(a -> new Pair<>(b4, a))
-                .peek(s-> System.out.println(s))
+                .peek(s -> System.out.println(s))
                 .collect(Collectors
                         .toMap(Pair::getY,
                                 Pair::getX,
@@ -57,30 +54,27 @@ public class Main {
                 .collect(Collectors.toList())
         );
 
-        System.out.println("Стирает повторы"+Stream.of(b1, b2)
+        System.out.println("Стирает повторы" + Stream.of(b1, b2)
                 .map(b -> b.getAsList().stream().map(a -> new Pair<>(b, a))
-                        .collect(Collectors
-                                .toMap(Pair::getY,
-                                        Pair::getX,
-                                        (s, a) -> s)))
-                .reduce(new HashMap<>(),(accM, m)->{accM.putAll(m);
-
-                return accM;
-                })
-//                .map(s->)
-//                .collect(Collectors.toList())
-        );
+                        .collect(Collectors.toMap(Pair::getY,
+                                s -> {
+                                    List<B> a = new ArrayList<>();
+                                    a.add(s.getX());
+                                    return a;
+                                },
+                                (s, a) -> {
+                                    s.addAll(a);
+                                    return s;
+                                })
+                        )
+                ).reduce(new HashMap<A, List<B>>(),(s,a)->{s.putAll(a); return s;}));
 
         System.out.println("last: " + Stream.of(b1, b2)
                 .map(b -> b.getAsList().stream().map(a -> new Pair<>(b, a))
                         .collect(Collectors
                                 .toMap(Pair::getY,
-                                        Pair::getX,
-                                        (s, a) -> s)))
-                .reduce(new HashMap<A,List<B>>(),(accM, m)->{accM.putAll(m);
-                    return accM;
-                })
-        );
+                                        Pair::getX)
+                        )));
 
     }
 
